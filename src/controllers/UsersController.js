@@ -6,8 +6,12 @@ class UsersController {
    async create(req, res) {
       const { name, email, password } = req.body
 
-      // const checkUserExists = await knex("users")
-      //    .where({ email }).first()
+      const checkUserExists = await knex("users")
+         .where({ email }).first()
+
+      if(checkUserExists) {
+         return
+      }
 
       // if(checkUserExists) {
       //    throw new AppError("This email is already in use")
