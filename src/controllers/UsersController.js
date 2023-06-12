@@ -10,6 +10,12 @@ class UsersController {
          .where({ email }).first()
 
       if(checkUserExists) {
+         console.log("Esse email já existe, escolha outro")
+         return
+      }
+
+      if(password.length < 6) {
+         console.log("A senha deve ter no mínimo 6 caracteres")
          return
       }
 
