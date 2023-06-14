@@ -1,12 +1,16 @@
 require('express-async-errors')
 const AppError = require("./utils/AppError")
 
+const cors = require('cors')
 const express = require('express')
 
 const routes = require("./routes")
 
 const app = express()
+// npm install cors   para que o nosso backend consiga atender as requisições do nosso frontend
+app.use(cors())
 app.use(express.json())
+
 app.use(routes)
 
 app.use((err, req, res, next) => {
@@ -17,8 +21,6 @@ app.use((err, req, res, next) => {
          message: err.message
       })
    }
-
-   console.log(err)
 
    //server side
    return res.status(500).json({
