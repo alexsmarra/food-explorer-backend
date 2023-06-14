@@ -1,6 +1,6 @@
 const { hash, compare } = require('bcryptjs')
 const knex = require('../database/knex')
-// const AppError
+const AppError = require('../utils/AppError')
 
 class UsersController {
    async create(req, res) {
@@ -8,20 +8,22 @@ class UsersController {
 
       const checkUserExists = await knex("users")
          .where({ email }).first()
+      
+      const validPassword = password.length < 6
+
+      if(checkUserExists && validPassword) {
+         throw new AppError(
+            "This email is already in use and the minimum number of characters in the password is 6"
+         )
+      }
 
       if(checkUserExists) {
-         console.log("Esse email já existe, escolha outro")
-         return
+         throw new AppError("This email is already in use.")
       }
 
-      if(password.length < 6) {
-         console.log("A senha deve ter no mínimo 6 caracteres")
-         return
+      if(validPassword) {
+         throw new AppError("The minimum number of characters in the password is 6.")
       }
-
-      // if(checkUserExists) {
-      //    throw new AppError("This email is already in use")
-      // }
 
       const hashedPassword = await hash(password, 8)
 
