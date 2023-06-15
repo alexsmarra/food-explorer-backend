@@ -5,6 +5,12 @@ const knex = require("../database/knex")
 const AppError = require("../utils/AppError")
 const { compare } = require("bcryptjs")
 
+// import token
+const authConfig = require("../configs/auth")
+// do próprio jsonwebtoken, para gerarmos o token mais abaixo
+const { sign } = require("jsonwebtoken")
+
+
 class SessionController {
    async create(req, res) {
       const { email, password } = req.body
@@ -21,7 +27,16 @@ class SessionController {
          throw new AppError("Password or email doesn't match!", 401)
       }
 
-      return res.json(user)
+      // desestruturando de nosso auth.js
+      const { secret, expiresIn} = authConfig.jwt
+      
+      const token = sign({}, secret, {
+         // pega o id do nosso user
+         subject: String(user.id),
+         expiresIn
+      })
+
+      return res.json({ user, token })
    }
 }
 
