@@ -3,7 +3,7 @@ const AppError = require("../utils/AppError")
 const authConfig = require("../configs/auth")
 
 /* Middleware que vai interceptar as requisições, pegar o token e dentro do token pegar o id
-do usuário para sabermos quem é o usuário que está fazendo a requisição */
+do usuário para sabermos quem é o usuário que está fazendo a requisição: */
 
 function ensureAuthenticated(req, res, next) {
    // the token will stay here
