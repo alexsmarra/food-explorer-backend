@@ -7,7 +7,8 @@ do usuário para sabermos quem é o usuário que está fazendo a requisição: *
 
 function ensureAuthenticated(req, res, next) {
    // the token will stay here (ligado ao nosso auth.js do frontend)
-   const authHeader = req.header.authorization
+   const authHeader = req.headers.authorization
+   console.log(req.headers)
 
    if(!authHeader) {
       throw new AppError("Uninformed JWT Token", 401)

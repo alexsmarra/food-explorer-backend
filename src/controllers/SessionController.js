@@ -28,7 +28,7 @@ class SessionController {
       }
 
       // desestruturando de nosso auth.js
-      const { secret, expiresIn} = authConfig.jwt
+      const { secret, expiresIn } = authConfig.jwt
       
       const token = sign({}, secret, {
          // pega o id do nosso user
