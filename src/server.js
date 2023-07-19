@@ -3,6 +3,8 @@ require("dotenv/config")
 
 const AppError = require("./utils/AppError")
 
+const uploadConfig = require("./configs/uploads")
+
 const cors = require('cors')
 const express = require('express')
 
@@ -12,6 +14,8 @@ const app = express()
 // npm install cors   para que o nosso backend consiga atender as requisições do nosso frontend
 app.use(cors())
 app.use(express.json())
+
+app.use("/files", express.static(uploadConfig.UPLOADS_FOLDER))
 
 app.use(routes)
 

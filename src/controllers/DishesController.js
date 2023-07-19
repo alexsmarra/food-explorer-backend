@@ -30,6 +30,11 @@ class DishesController {
     }
     
   }
+
+  async index(req, res) {
+    const dishes = await knex("dishes").select("*")
+    return res.json(dishes)
+  }
 }
 
 module.exports = DishesController;

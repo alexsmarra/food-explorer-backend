@@ -11,5 +11,6 @@ const upload = multer(uploadConfig.MULTER)
 const dishesController = new DishesController()
 
 dishesRoutes.post("/", upload.single("image"), dishesController.create)
+dishesRoutes.get("/", dishesController.index)
 
 module.exports = dishesRoutes
