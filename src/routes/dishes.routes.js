@@ -12,5 +12,6 @@ const dishesController = new DishesController()
 
 dishesRoutes.post("/", upload.single("image"), dishesController.create)
 dishesRoutes.get("/", dishesController.index)
+dishesRoutes.get("/:id", dishesController.show)
 
 module.exports = dishesRoutes
