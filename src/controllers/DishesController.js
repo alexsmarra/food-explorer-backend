@@ -10,6 +10,10 @@ class DishesController {
     const { name, category, ingredients, price, description } = req.body;
       
     const filename = await diskStorage.saveFile(image)
+
+    if(category === "escolha") {
+      throw new AppError("Escolha uma categoria.")
+    }
       
     try {
       await knex("dishes").insert({
