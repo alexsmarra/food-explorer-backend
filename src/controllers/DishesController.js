@@ -32,15 +32,22 @@ class DishesController {
   }
 
   async index(req, res) {
-    const { name } = req.query
-    let dishes
+    const { search } = req.query
 
-    if(name) {
-      dishes = await knex("dishes")
-        .whereLike("name", `%${name}%`)
-    } else {
-      dishes = await knex("dishes").select("*")
+    let query = knex("dishes")
+
+    if(search) {
+      const userIngredientsArray = search.split(",").map(ingredient => ingredient.trim())
+      
+      userIngredientsArray.map(ingredient => {
+        query = query.whereLike('ingredients', `%${ingredient}%`)
+      })
+
+      query = query.orWhereLike("name", `%${search}%`)
     }
+
+    const dishes = await query
+
     return res.json(dishes)
   }
 
@@ -53,7 +60,8 @@ class DishesController {
         "dishes.name",
         "dishes.description",
         "dishes.image",
-        "dishes.ingredients"
+        "dishes.ingredients",
+        "dishes.price"
       ])
 
     return res.json(dishes)
