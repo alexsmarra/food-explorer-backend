@@ -13,6 +13,8 @@ const dishesController = new DishesController()
 dishesRoutes.post("/", upload.single("image"), dishesController.create)
 dishesRoutes.get("/", dishesController.index)
 dishesRoutes.get("/:id", dishesController.show)
-dishesRoutes.patch("/:id", dishesController.update)
+/* sem o upload.single não estava sendo possível editar nem sequer apenas o campo 'name', talvez 
+seja pela necessidade do multer para captar arquivos do tipo mulitipart/form-data */
+dishesRoutes.patch("/:id", upload.single("image"), dishesController.update)
 
 module.exports = dishesRoutes

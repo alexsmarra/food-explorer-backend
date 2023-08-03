@@ -1,9 +1,6 @@
 require('express-async-errors')
 require("dotenv/config")
 
-const multer = require('multer');
-const upload = multer();
-
 const AppError = require("./utils/AppError")
 
 const uploadConfig = require("./configs/uploads")
@@ -17,9 +14,6 @@ const app = express()
 // npm install cors   para que o nosso backend consiga atender as requisições do nosso frontend
 app.use(cors())
 app.use(express.json())
-/* middleware do multer permitindo que todo o meu backend receba arquivos multipart/form-data 
-(formData do meu frontEnd por exemplo) */
-app.use(upload.any());
 
 app.use("/files", express.static(uploadConfig.UPLOADS_FOLDER))
 
