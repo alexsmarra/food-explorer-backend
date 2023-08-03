@@ -62,6 +62,7 @@ class DishesController {
       .where({ id }).first()
       .select([
         "dishes.name",
+        "dishes.category",
         "dishes.description",
         "dishes.image",
         "dishes.ingredients",
@@ -70,6 +71,61 @@ class DishesController {
 
     return res.json(dishes)
   }
+
+  async update(req, res) {
+    const { id } = req.params;
+    const { name } = req.body;
+
+    // Verifique se o corpo da requisição está chegando corretamente
+    console.log(req.body);
+
+    // Use o ID e o novo nome para atualizar o prato no banco de dados
+    try {
+        const dish = await knex("dishes").where({ id }).first();
+
+        if (!dish) {
+            throw new AppError("Prato inexistente!");
+        }
+
+        await knex("dishes").where({ id: dish.id }).update({
+            name
+        });
+
+        // Responda com uma mensagem de sucesso ou o prato atualizado
+        return res.json({ message: "Prato atualizado com sucesso!" });
+    } catch (error) {
+        return res.status(500).json({ error: "Erro ao atualizar prato!" });
+    }
+}
+
+  // async update(req, res) {
+  //   // const { filename: image } = req.file
+  //   const { name } = req.body
+  //   const { id } = req.params
+
+  //   // const filename = await diskStorage.saveFile(image)
+
+  //   const dish = await knex("dishes").where({ id }).first()
+
+  //   if(!dish) throw new AppError("Prato inexistente!")
+    
+  //   await knex("dishes").where({ id: dish.id }).update({
+  //     name
+  //   })
+
+  //   const updatedDishColumns = await knex("dishes").where({ id: dish.id})
+    
+  //   // .update({
+  //   //   // image: filename,
+  //   //   name,
+  //   //   // category,
+  //   //   price,
+  //   //   description
+  //   // })
+
+  //   return res.json()
+
+  // } 
 }
 
 module.exports = DishesController;
