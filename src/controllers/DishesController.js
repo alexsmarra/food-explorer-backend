@@ -22,8 +22,7 @@ class DishesController {
           category,
           ingredients,
           price,
-          description,
-          category
+          description
         });
         
       return res.status(200).json();
@@ -74,10 +73,17 @@ class DishesController {
 
   async update(req, res) {
     const { id } = req.params;
-    const { name } = req.body;
+    const { filename: image } = req.file;
+    const { name, category, ingredients, price, description } = req.body;
+
+    const filename = await diskStorage.saveFile(image)
 
     // Verifique se o corpo da requisição está chegando corretamente
-    console.log(req.body);
+    console.log(image, name, category, ingredients, price, description);
+
+    if(!image || !name || !category || !ingredients || !price || !description) {
+      throw new AppError("Erro ao lidar com os dados")
+    }
 
     // Use o ID e o novo nome para atualizar o prato no banco de dados
     try {
@@ -88,7 +94,12 @@ class DishesController {
         }
 
         await knex("dishes").where({ id: dish.id }).update({
-            name
+            image: filename,
+            name,
+            category,
+            ingredients,
+            price,
+            description
         });
 
         // Responda com uma mensagem de sucesso ou o prato atualizado
