@@ -1,6 +1,8 @@
 const knex = require('../database/knex');
 const AppError = require('../utils/AppError');
 
+const path = require("path")
+const { UPLOADS_FOLDER } = require("../configs/uploads")
 const DiskStorage = require("../providers/DiskStorage")
 const diskStorage = new DiskStorage()
 
@@ -73,7 +75,7 @@ class DishesController {
 
   async update(req, res) {
     const { id } = req.params;
-    const { filename: image } = req.file;
+    const { filename: image } = req.file || {} // Fallback para evitar erro se não houver imagem
     const { name, category, ingredients, price, description } = req.body;
 
     // Use o ID e o novo nome para atualizar o prato no banco de dados
@@ -83,13 +85,8 @@ class DishesController {
         if (!dish) {
             throw new AppError("Prato inexistente!");
         }
-
-        await diskStorage.deleteFile(dish.image)
-
-        const filename = await diskStorage.saveFile(image)
         
         const updateFields = {
-          image: filename,
           name,
           category,
           ingredients,
@@ -97,11 +94,18 @@ class DishesController {
           description
         }
 
-        await knex("dishes").where({ id: dish.id }).update(updateFields)
+        if(image) {
+          await diskStorage.deleteFile(path.join(UPLOADS_FOLDER, dish.image))
 
-        // Responda com uma mensagem de sucesso ou o prato atualizado
+          const filename = await diskStorage.saveFile(image)
+          updateFields.image = filename
+        }
+
+        await knex("dishes").where({ id: dish.id }).update(updateFields);
+
         return res.json({ message: "Prato atualizado com sucesso!" });
     } catch (error) {
+        console.error(error)
         return res.status(500).json({ error: "Erro ao atualizar prato!" });
     }
  }
