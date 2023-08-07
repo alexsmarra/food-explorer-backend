@@ -16,5 +16,6 @@ dishesRoutes.get("/:id", dishesController.show)
 /* sem o upload.single não estava sendo possível editar nem sequer apenas o campo 'name', talvez 
 seja pela necessidade do multer para captar arquivos do tipo mulitipart/form-data */
 dishesRoutes.patch("/:id", upload.single("image"), dishesController.update)
+dishesRoutes.delete("/:id", dishesController.delete)
 
 module.exports = dishesRoutes

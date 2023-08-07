@@ -1,8 +1,7 @@
 const knex = require('../database/knex');
 const AppError = require('../utils/AppError');
-
-const path = require("path")
 const { UPLOADS_FOLDER } = require("../configs/uploads")
+const path = require("path")
 const DiskStorage = require("../providers/DiskStorage")
 const diskStorage = new DiskStorage()
 
@@ -105,39 +104,21 @@ class DishesController {
 
         return res.json({ message: "Prato atualizado com sucesso!" });
     } catch (error) {
-        console.error(error)
         return res.status(500).json({ error: "Erro ao atualizar prato!" });
     }
  }
 
-  // async update(req, res) {
-  //   // const { filename: image } = req.file
-  //   const { name } = req.body
-  //   const { id } = req.params
+ async delete(req, res) {
+  const { id } = req.params
 
-  //   // const filename = await diskStorage.saveFile(image)
+  const dish = await knex("dishes").where({ id }).first()
 
-  //   const dish = await knex("dishes").where({ id }).first()
+  await diskStorage.deleteFile(path.join(UPLOADS_FOLDER, dish.image))
 
-  //   if(!dish) throw new AppError("Prato inexistente!")
-    
-  //   await knex("dishes").where({ id: dish.id }).update({
-  //     name
-  //   })
+  await knex("dishes").where({ id }).first().delete()
 
-  //   const updatedDishColumns = await knex("dishes").where({ id: dish.id})
-    
-  //   // .update({
-  //   //   // image: filename,
-  //   //   name,
-  //   //   // category,
-  //   //   price,
-  //   //   description
-  //   // })
-
-  //   return res.json()
-
-  // } 
+  return res.json()
+ }
 }
 
 module.exports = DishesController;
