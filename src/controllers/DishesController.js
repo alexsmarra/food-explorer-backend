@@ -61,6 +61,7 @@ class DishesController {
     const dishes = await knex("dishes")
       .where({ id }).first()
       .select([
+        "dishes.id",
         "dishes.name",
         "dishes.category",
         "dishes.description",
