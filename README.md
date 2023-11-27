@@ -24,6 +24,6 @@ Now, if you are an administrator, the options to edit, update, add and delete a 
 
 - To initialize the database tables, run the "npm run migrate" command.
 
-- In order to facilitate:
+- In order to facilitate: <br>
 Adm already registered => email: alex@hotmail.com | password: alexandre <br>
 User already registered => email: thaty@gmail.com | password: thatyana
