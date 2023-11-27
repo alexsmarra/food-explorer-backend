@@ -15,9 +15,9 @@ Now, if you are an administrator, the options to edit, update, add and delete a 
 ## Endpoints
 - Users - create (to register the user or to log in if the user already exists, or to log in as an administrator, who is already registered as such in our database).
 
-- Sessions - Create (Logins the user using the email and password of an existing user in the database, taking the data from the request body, with their data and the authentication token).
+- Sessions - create (Logins the user using the email and password of an existing user in the database, taking the data from the request body, with their data and the authentication token).
 
-- Dishes - Create(creates a new dish), Show(shows the data of a specific dish), Index(shows a list with all registered dishes, their data and ingredients), Delete(deletes a specific dish), Update(updates a plate).
+- Dishes - create (creates a new dish), Show(shows the data of a specific dish), Index(shows a list with all registered dishes, their data and ingredients), Delete(deletes a specific dish), Update(updates a plate).
 
 ### Observation
 - To install the project's dependencies and start it running, run the "npm install" command in the terminal.
