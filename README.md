@@ -10,7 +10,7 @@ When logging in, if you are a regular user, you will have access to the restaura
 Now, if you are an administrator, the options to edit, update, add and delete a specific dish will be available.
 
 ## Main technologies used
-- Nodejs, Express, API RESTfull - Knex, Database relational, Sqlite, Routes, Cors, JWT Token, Multer and Jest.
+- Nodejs, Express, API RESTfull - Knex, Database relational, Sqlite, Routes, Cors, JWT Token and Multer.
 
 ## Endpoints
 - Users - create (to register the user or to log in if the user already exists, or to log in as an administrator, who is already registered as such in our database).
